@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<head>
+
+  <meta charset="utf-8" />
+  <title>Profile Picture Overlay</title>
+
+	<style>
+		#overlay-img, .overlay-img {
+			width:500px;
+			height:auto;
+			display:block;
+			margin: 30px auto;
+		}
+
+		input {
+			display: block;
+			margin: 10px auto;
+		}
+
+		.inputfile {
+			width: 0.1px;
+			height: 0.1px;
+			opacity: 0;
+			overflow: hidden;
+			position: absolute;
+			z-index: -1;
+		}
+
+		.inputfile + label {
+			border-radius: 2px;
+			margin-top:40px;
+			display: inline-block;
+			padding: 10px 30px;
+		    font-weight: 700;
+		    text-transform: uppercase;
+		  	vertical-align: middle;
+		    color: white;
+		    background-color: #e62b1e;
+		    -webkit-tap-highlight-color: transparent;
+		}
+
+		.inputfile:focus + label,
+		.inputfile + label:hover {
+		    box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+		}
+
+		.inputfile + label {
+			cursor: pointer; /* "hand" cursor */
+		}
+
+		.inputfile:focus + label {
+			outline: 1px dotted #000;
+			outline: -webkit-focus-ring-color auto 5px;
+		}
+
+		.overlay-div {
+			text-align:center;
+		}
+
+		.madeBy {
+			text-align:center;
+			font-size: .7em;
+			margin: 50px auto 10px auto;
+		}
+
+	</style>
+
+
+</head>
+<body>
+
+
+  <script type="text/javascript" src="caman.full.js"></script>
+
+
+      <div>
+          <h2>Get excited for [insert amazing cause/event here]!</h2>
+          <p>Create a profile overlay with our theme. How better to show your anticipation for [insert amazing cause/event here]? This is how you can create your overlay:</p>
+          <ol>
+          	<li><b>Locate</b> your profile picture on your computer, <b>or download</b> your profile picture from e.g. Facebook (right-click and choose "Save As...").</li>
+          	<li><b>Select</b> your picture below, and check the overlay. <b>Square pictures</b> work best, as the picture will automatically be cropped to be square.</li>
+          	<li><b>Download</b> your brand new picture (right-click and choose "Save As...") and set it on the social networks of your choice.</li>
+          </ol>
+          <p>Learn more about [insert amazing cause/event here] <a href="#">on this page</a>.</p>
+      </div>
+
+
+
+<div class="overlay-div">
+  	<input type="file" accept="image/*" onchange="loadFile(event)" id="file" class="inputfile" />
+	<label for="file">Choose Profile Image</label>
+
+	<img id="overlay-img" src="plain.png"/>
+</div>
+	<script>
+	  var loadFile = function(event) {
+	    var reader = new FileReader();
+	    reader.onload = function() {
+	      createOverlay(reader.result);
+	    };
+	    reader.readAsDataURL(event.target.files[0]);
+	  };
+
+	var createOverlay = function(uploadImage) {
+	  	var baseImg = uploadImage;
+	  	Caman("#overlay-img", function () {
+			this.brightness(5).render();
+			this.newLayer(function() {
+			    this.setBlendingMode("normal");
+			    this.opacity(100);
+			    this.overlayImage(baseImg);
+		  	});
+
+		  	this.newLayer(function() {
+			    this.setBlendingMode("normal");
+			    this.opacity(90);
+			    this.overlayImage('overlay.png');
+		  	});
+
+		  	$('#overlay-img').removeAttr('style');
+		});
+
+		$('#overlay-img').removeAttr('style');
+	};
+	</script>
+
+<div class="madeBy">Made by <a href="http://dora.rocks/" target="_blank">Dora Dzvonyar</a> using <a href="http://camanjs.com/" target="_blank">CamanJS</a></div>
+
+        
+        
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+</body>
+</html>
